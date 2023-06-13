@@ -8,7 +8,8 @@ CFLAGS		= -Wall -Werror -Wextra
 
 # Sources files
 SRC		= ./src/philosophers.c \
-
+			./src/check_input.c \
+			./src/utils.c \
 
 # Objects files
 OBJ		= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
