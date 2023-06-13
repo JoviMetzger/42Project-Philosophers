@@ -39,7 +39,7 @@ int main(int argc, char **argv)
     t_data data;
     
     //data = (t_data *)ft_calloc(sizeof(t_data), 1);
-    if (argc >= 5) // && argc <= 6)
+    if (argc >= 5 && argc <= 6)
     {
         if (!ft_check_input(&data, argc, argv))
             ft_error_msg("Invalid Input");
