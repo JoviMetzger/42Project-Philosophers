@@ -10,6 +10,8 @@ CFLAGS		= -Wall -Werror -Wextra
 SRC		= ./src/philosophers.c \
 			./src/check_input.c \
 			./src/utils.c \
+			./src/init.c \
+			./src/threads.c \
 
 # Objects files
 OBJ		= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))

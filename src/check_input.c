@@ -6,47 +6,46 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:19:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/13 14:12:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/14 08:32:54 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/* ft_isdigit();
+*	Checks if a string represents a valid positive integer.
+*/
 static int	ft_isdigit(char *num)
 {
-    int i;
+	int	i;
 
-    i = 0;
-    while (num[i])
-    {
-        if (num[i] == '+')
-            i++;
-        if (num[i] >= '0' && num[i] <= '9')
-            i++;
-        else
-            return (0);
-    }
-    return (1);
+	i = 0;
+	while (num[i])
+	{
+		if (num[i] == '+')
+			i++;
+		if (num[i] >= '0' && num[i] <= '9')
+			i++;
+		else
+			return (0);
+	}
+	return (1);
 }
 
-int ft_check_input(t_data *data, int argc, char **argv)
+/* ft_check_input();
+*	This function uses ft_isdigit() to validate 
+*	all command-line arguments except the program name.
+*/
+int	ft_check_input(char **argv)
 {
-    int i;
-    
-    i = 1;
-    while (argv[i])
-    {
-        if (!ft_isdigit(argv[i]))
-            return (0);
-        i++;
-    }
-    data->nb_philo = ft_atoi(argv[1]);
-    data->time_to_die = ft_atoi(argv[2]);
-    data->time_to_eat = ft_atoi(argv[3]);
-    data->time_to_sleep = ft_atoi(argv[4]);
-    if (argc == 6)
-        data->max_eat_count = ft_atoi(argv[5]);
-    else 
-        data->max_eat_count = 0; 
-    return (1);
+	int	i;
+
+	i = 1;
+	while (argv[i])
+	{
+		if (!ft_isdigit(argv[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
