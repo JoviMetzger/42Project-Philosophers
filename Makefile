@@ -7,7 +7,7 @@ CFLAGS		= -Wall -Werror -Wextra
 
 
 # Sources files
-SRC		= ./src/philosophers.c \
+SRC		= ./src/main.c \
 			./src/check_input.c \
 			./src/utils.c \
 			./src/init.c \

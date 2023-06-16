@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:19:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/14 08:32:54 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/06/16 15:36:47 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,15 @@
 
 /* ft_isdigit();
 *	Checks if a string represents a valid positive integer.
+*	Input 0 isn't valid.
 */
 static int	ft_isdigit(char *num)
 {
 	int	i;
 
 	i = 0;
+	if (num[0] == '0')
+		return (0);
 	while (num[i])
 	{
 		if (num[i] == '+')
