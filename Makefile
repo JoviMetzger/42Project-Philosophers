@@ -3,15 +3,22 @@ NAME		= philo
 
 # Compiler and flags
 CC			= gcc
-CFLAGS		= -Wall -Werror -Wextra 
+CFLAGS		= -Wall -Wextra
+# CFLAGS		+= -Werror
+# CFLAGS		+= -fsanitize=thread
+# CFLAGS		+= -fsanitize=address
 
 
 # Sources files
 SRC		= ./src/main.c \
 			./src/check_input.c \
-			./src/utils.c \
+			./src/check_meals.c \
+			./src/destroy_mutex.c \
 			./src/init.c \
+			./src/start_routine.c \
 			./src/threads.c \
+			./src/utils_libft.c \
+			./src/utils.c \
 
 # Objects files
 OBJ		= $(addprefix $(OBJDIR)/, $(notdir $(SRC:.c=.o)))
