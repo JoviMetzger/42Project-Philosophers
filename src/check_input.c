@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:19:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/16 15:36:47 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/07 17:17:41 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	ft_isdigit(char *num)
 		return (0);
 	while (num[i])
 	{
-		if (num[i] == '+')
+		if (num[0] == '+')
 			i++;
 		if (num[i] >= '0' && num[i] <= '9')
 			i++;
