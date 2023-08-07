@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 08:11:08 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/20 11:41:02 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/07 18:06:49 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,44 +22,62 @@ void	ft_error_msg(char *msg)
 	exit(EXIT_FAILURE);
 }
 
-long int get_time()
+// void ft_free(t_data *data) ////
+// {
+// 	int i;
+
+// 	i = -1;
+// 	while (++i < data->arg->nb_philos)
+// 	{
+// 		while (get_state(data->philos, i) != freed)
+// 			usleep(1000);
+// 		pthread_mutex_destroy(&(data->philos[i].fork));
+// 		pthread_mutex_destroy(&(data->philos[i].update));
+// 	}
+// 	free(data->philos);
+// }
+
+
+int	get_left_fork_pos(int pos, int nb_philos)
 {
-	struct timeval time;
-	
+	int	left;
+
+	left = pos - 1;
+	if (left < 0)
+		left = nb_philos - 1;
+	return (left);
+}
+
+void	set_state(t_philo *philos, int pos, t_state state)
+{
+	pthread_mutex_lock(&philos[pos].update);
+	philos[pos].state = state;
+	pthread_mutex_unlock(&philos[pos].update);
+}
+
+t_state	get_state(t_philo *philos, int pos)
+{
+	t_state	state;
+
+	state = philos[pos].state;
+	return (state);
+}
+
+void	ft_wait(int time)
+{
+	long long	start;
+
+	if (time <= 0)
+		return ;
+	start = get_time();
+	while (get_time() - start < time)
+		usleep(1000);
+}
+
+long long int	get_time(void)
+{
+	struct timeval	time;
+
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
-}
-
-
-void ft_print_action(t_data *data, int philo_pos, char *msg)
-{
-	long int time;
-	
-	time = get_time() - data->start_time;
-	pthread_mutex_lock(&(data->writing));
-	if (!(data->stop_condition))
-	{
-		printf("%ld ", time);
-		printf("%i ", philo_pos + 1);
-		printf("%s\n", msg);
-	}
-	pthread_mutex_unlock(&(data->writing));
-}
-
-long int	time_difference(long int past, long int pres)
-{
-	return (pres - past);
-}
-
-void ft_time_to_(long int time, t_data *data)
-{
-	long int i;
-
-	i = get_time();
-	while(!(data->stop_condition))
-	{
-		if (time_difference(i, get_time()) >= time)
-			break ;
-		usleep(50);
-	}
+	return ((long long)(time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
