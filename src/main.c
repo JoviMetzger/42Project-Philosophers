@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/06/16 13:42:15 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/07 20:30:26 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,24 @@
 *	it displays an error message and exits the program.
 */
 int	main(int argc, char **argv)
-{
+{	
 	t_data	*data;
-
+	
 	data = (t_data *)ft_calloc(sizeof(t_data), 1);
+	if (!data)
+		ft_error_msg("Initializing problem");
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!ft_check_input(argv))
 			ft_error_msg("Invalid Input");
+			printf("FINISHED check:\n");  //RM
 		if (!ft_init(data, argc, argv))
-			ft_error_msg("Initializing problem");
+		 	ft_error_msg("Initializing problem");
+			printf("FINISHED init:\n"); //RM
 		if (!ft_threads(data))
 			ft_error_msg("Something went wrong with the threads");
+			printf("FINISHED threads:\n"); //RM
+		//ft_destroy(data);
 	}
 	else
 	{
