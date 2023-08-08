@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:55 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/07 20:02:56 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/08 21:55:40 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ typedef enum e_state
 typedef struct s_philo
 {
 	t_state			state;
+	long long int 	last_meal;
 	pthread_mutex_t	update;
 	pthread_mutex_t	fork;
-	long long int 	last_meal;
 
 }	t_philo;
 
@@ -52,6 +52,7 @@ typedef struct s_arg
 	int				time_to_eat;
 	int				time_to_sleep;
 	int				nb_of_times_each_philo_must_eat;
+	int error; //RM
 }	t_arg;
 
 
@@ -63,15 +64,14 @@ typedef struct s_data
 }	t_data;
 
 void	print_args(t_arg arg);
-void ft_destroy(t_data *data);
 
 int				ft_check_input(char **argv);
 int				ft_init(t_data *data, int argc, char **argv);
-int				ft_threads(t_data *data);
+int				ft_threads(t_philo *philos, t_arg arg);
 int				ft_atoi(const char *str);
 int				get_left_fork_pos(int pos, int nb_philos);
+int				check_meals(t_philo *philos, t_arg arg);
 void			*ft_start_routine(void *data);
-void			check_meals(t_philo *philos, t_arg arg);
 void			ft_destroy_mutex(t_philo *philos, t_arg arg);
 void			*ft_calloc(size_t count, size_t n);
 void			ft_bzero(void *str, size_t n);
@@ -79,7 +79,8 @@ void			ft_error_msg(char *msg);
 void			ft_wait(int time);
 void			set_state(t_philo *philos, int pos, t_state state);
 long long int	get_time(void);
+t_arg			ft_init_arg(int argc, char **argv);
+t_philo			*init_philos(t_arg arg);
 t_state			get_state(t_philo *philos, int pos);
 
 #endif
-
