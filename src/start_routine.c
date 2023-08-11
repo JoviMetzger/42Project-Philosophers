@@ -6,12 +6,30 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/07 18:10:59 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/11 22:30:36 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
+/* ft_eat();
+ *	- This function represents the action of a philosopher eating. 
+ *	- Retrieves the position of the left fork using get_left_fork_pos().
+ *	- Checks if the philosopher is already in a dead state. 
+ *		- If so, it releases the left fork and returns.
+ *	- Prints a message indicating that the philosopher has taken a fork.
+ *	- Locks the philosopher's own fork mutex to acquire the fork.
+ *	- If the philosopher is not in a dead state, prints another message 
+ *	  indicating that the philosopher has taken a second fork.
+ *	- Locks the philosopher's update mutex to update its state 
+ *	  and 'last_meal' time.
+ *	- If the philosopher is not in a dead state, 
+ *	  updates philos state to "eating" and records the 'last_meal' time.
+ *	- Unlocks the update mutex and prints a message indicating that 
+ *	  the philosopher is eating.
+ *	- Calls ft_wait to simulate the time the philosopher spends eating.
+ *	- Releases the philosopher's own fork and the left fork.
+ */
 static void	ft_eat(t_data *data)
 {
 	int	left_pos;
@@ -41,7 +59,25 @@ static void	ft_eat(t_data *data)
 	pthread_mutex_unlock(&data->philos[left_pos].fork);
 }
 
-static void	ft_action_and_print(t_data *data, t_state state, int ate_howmany_times)
+/* ft_action_and_print();
+ *	- This function handles various philosopher actions and prints 
+ *	  corresponding messages. 
+ *	- If the philosopher is eating or in a stop state:
+ *		- If the philosopher has eaten more than once, it prints a message 
+ *		  indicating that the philosopher is thinking.
+ *		- It waits until the left fork is available.
+ *		- Locks the philosopher's update mutex to check its state and 
+ *		  avoid potential conflicts.
+ *		- If the philosopher is in a dead state, it unlock the update mutex
+ *		  and returns.
+ *		- Updates the philosopher's state to "thinking" and releases 
+ *		  the update mutex.
+ *		- Locks the left fork mutex and calls ft_eat() to simulate eating.
+ *		- If the philosopher is in a sleeping state:
+ *			- Prints a message indicating that the philosopher is sleeping.
+ */
+static void	ft_action_and_print(t_data *data, t_state state, \
+	int ate_howmany_times)
 {
 	if (state == eating || state == stop)
 	{
@@ -69,6 +105,22 @@ static void	ft_action_and_print(t_data *data, t_state state, int ate_howmany_tim
 	}
 }
 
+/* ft_philo_state();
+ *	- This function determines the philosopher's next state based on 
+ *	  its current state and the number of times it has eaten. 
+ *	- Locks the philosopher's update mutex to check its state and 
+ *	  update 'ate_how_many_times'.
+ *	- If the philosopher is in a 'dead' state or the required number of 
+ *	  meals has been reached (or no specific number of meals is required), 
+ *	  it sets the state to "dead."
+ *	- If the philosopher is currently eating, it updates the state to sleeping.
+ *	- If the philosopher is allowed to continue eating, it increments 
+ *	  the "ate_how_many_times" counter and sets the state to "eating."
+ *	- If the philosopher is not in any of the above conditions, 
+ *	  it sets the state to "stop."
+ *	- After determining the next state, it calls ft_action_and_print() 
+ *	  to handle the action and print corresponding messages.
+ */
 static t_state	ft_philo_state(t_data *data, int *ate_howmany_times)
 {
 	t_state	state;
@@ -93,6 +145,18 @@ static t_state	ft_philo_state(t_data *data, int *ate_howmany_times)
 	return (state);
 }
 
+/* ft_start_routine();
+ *	- This function is the entry point for the threads representing individual 
+ *	  philosophers. 
+ *	- If the philosopher's position is odd, it calls ft_wait(3) 
+ *	  to introduce an initial delay for better synchronization.
+ *	- Enters a loop that continues until the philosopher is in a 
+ *	  "dead" or "stop" state:
+ *		- If there is only one philosopher, it simulates a minimal wait 
+ *		  and retrieves the philosopher's state.
+ *		- Otherwise, it calls ft_philo_state() to determine the next state
+ *		  based on the philosopher's current state and meals consumed.
+ */
 void	*ft_start_routine(void *data)
 {
 	int		ate_howmany_times;
