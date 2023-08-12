@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 22:32:13 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 18:05:19 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@
  *	- After starting the threads for even-numbered philosophers, 
  *	  the function resets the iteration index to 1, ensuring that odd-numbered 
  *	  philosophers are also covered.
+ *	- Check_meals() to ensure that each philosopher has eaten 
+ *	  the required number of times.
  */
 static int	ft_start(t_philo *philos, t_arg arg)
 {
@@ -39,6 +41,7 @@ static int	ft_start(t_philo *philos, t_arg arg)
 		data->arg = arg;
 		data->philos = philos;
 		data->pos = i;
+		data->start_time = get_time();
 		philos[i].last_meal = get_time();
 		if (pthread_create(&thread, NULL, &ft_start_routine, data))
 			return (1);
@@ -47,6 +50,8 @@ static int	ft_start(t_philo *philos, t_arg arg)
 		if (i % 2 == 0 && i >= arg.nb_philos)
 			i = 1;
 	}
+	if (!check_meals(philos, arg, data))
+		return (0);
 	return (1);
 }
 
@@ -54,16 +59,12 @@ static int	ft_start(t_philo *philos, t_arg arg)
  *	- This function coordinates the execution of philosopher threads 
  *	  and handles their termination. 
  *	- ft_start() to start threads for philosophers.
- *	- check_meals() to ensure that each philosopher has eaten 
- *	  the required number of times.
  *	- ft_destroy_mutex() to destroy mutexes.
  *	- ft_wait(1) to wait for all philosopher threads to complete.
 */
 int	ft_threads(t_philo *philos, t_arg arg)
 {
 	if (!ft_start(philos, arg))
-		return (0);
-	if (!check_meals(philos, arg))
 		return (0);
 	ft_destroy_mutex(philos, arg);
 	ft_wait(1);

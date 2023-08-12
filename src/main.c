@@ -6,11 +6,17 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 11:54:16 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 18:09:24 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+//./philo 199 190 60 60 5 - die and print nothing after that
+//./philo 4 200 20000 60 60 - has a 20second delay before exit
+//./philo 3246784 190 60 60
+//./philo 185 190 60 60
+//./philo 199 185 60 60
 
 // //___________________________________________
 // // FOR LEAKS

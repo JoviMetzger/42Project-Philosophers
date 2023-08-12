@@ -6,11 +6,23 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 11:50:09 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 18:09:51 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
+
+/* ft_time();
+ *	- To get the timestamp of current milliseconds.
+ *		- start time - current time.
+ */
+long long int	ft_time(t_data *data)
+{
+	long long int	result;
+
+	result = get_time() - data->start_time;
+	return (result);
+}
 
 /* ft_eat();
  *	- This function represents the action of a philosopher eating. 
@@ -30,33 +42,33 @@
  *	- Calls ft_wait to simulate the time the philosopher spends eating.
  *	- Releases the philosopher's own fork and the left fork.
  */
-static void	ft_eat(t_data *data)
+static void	ft_eat(t_data *all)
 {
 	int	left_pos;
 
-	left_pos = get_left_fork_pos(data->pos, data->arg.nb_philos);
-	if (get_state(data->philos, data->pos) == dead)
+	left_pos = get_left_fork_pos(all->pos, all->arg.nb_philos);
+	if (get_state(all->philos, all->pos) == dead)
 	{
-		pthread_mutex_unlock(&data->philos[left_pos].fork);
+		pthread_mutex_unlock(&all->philos[left_pos].fork);
 		return ;
 	}
-	printf("%lld %d has taken a fork\n", get_time(), data->pos + 1);
-	pthread_mutex_lock(&data->philos[data->pos].fork);
-	if (get_state(data->philos, data->pos) != dead)
-		printf("%lld %d has taken a fork\n", get_time(), data->pos + 1);
-	pthread_mutex_lock(&data->philos[data->pos].update);
-	if (data->philos[data->pos].state != dead)
+	printf("%lld %d has taken a fork\n", ft_time(all), all->pos + 1);
+	pthread_mutex_lock(&all->philos[all->pos].fork);
+	if (get_state(all->philos, all->pos) != dead)
+		printf("%lld %d has taken a fork\n", ft_time(all), all->pos + 1);
+	pthread_mutex_lock(&all->philos[all->pos].update);
+	if (all->philos[all->pos].state != dead)
 	{
-		data->philos[data->pos].state = eating;
-		data->philos[data->pos].last_meal = get_time();
-		pthread_mutex_unlock(&data->philos[data->pos].update);
-		printf("%lld %d is eating\n", get_time(), data->pos + 1);
-		ft_wait(data->arg.time_to_eat);
+		all->philos[all->pos].state = eating;
+		all->philos[all->pos].last_meal = get_time();
+		pthread_mutex_unlock(&all->philos[all->pos].update);
+		printf("%lld %d is eating\n", ft_time(all), all->pos + 1);
+		ft_wait(all->arg.time_to_eat);
 	}
 	else
-		pthread_mutex_unlock(&data->philos[data->pos].update);
-	pthread_mutex_unlock(&data->philos[data->pos].fork);
-	pthread_mutex_unlock(&data->philos[left_pos].fork);
+		pthread_mutex_unlock(&all->philos[all->pos].update);
+	pthread_mutex_unlock(&all->philos[all->pos].fork);
+	pthread_mutex_unlock(&all->philos[left_pos].fork);
 }
 
 /* ft_action_and_print();
@@ -82,7 +94,7 @@ static void	ft_action_and_print(t_data *data, t_state state, \
 	if (state == eating || state == stop)
 	{
 		if (ate_howmany_times > 1)
-			printf("%lld %d is thinking\n", get_time(), data->pos + 1);
+			printf("%lld %d is thinking\n", ft_time(data), data->pos + 1);
 		pthread_mutex_lock(&data->philos[data->pos].update);
 		while (get_state(data->philos, get_left_fork_pos(data->pos, \
 			data->arg.nb_philos)) == thinking)
@@ -98,7 +110,7 @@ static void	ft_action_and_print(t_data *data, t_state state, \
 	}
 	else if (state == sleeping)
 	{
-		printf("%lld %d is sleeping\n", get_time(), data->pos + 1);
+		printf("%lld %d is sleeping\n", ft_time(data), data->pos + 1);
 		ft_wait(data->arg.time_to_sleep);
 	}
 }

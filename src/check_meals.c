@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 11:41:13 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 18:08:58 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,28 +51,28 @@ static void	ft_kill_all(t_philo *philos, int nb_philos)
  *	  to perform the state update.
  *	- Returns 1 to indicate that the philosopher has been killed.
  */
-static int	should_philo_be_killed(t_philo *philos, int time_to_die, \
+static int	should_philo_be_killed(t_data *all, int time_to_die, \
 	int pos, int *freed_pos)
 {
 	int				killed;
 	long long int	time_since_last_meal;
 
 	killed = 0;
-	if (get_state(philos, pos) == freed)
+	if (get_state(all->philos, pos) == freed)
 		(*freed_pos)++;
 	else
 	{
-		pthread_mutex_lock(&philos[pos].update);
-		time_since_last_meal = get_time() - philos[pos].last_meal;
+		pthread_mutex_lock(&all->philos[pos].update);
+		time_since_last_meal = get_time() - all->philos[pos].last_meal;
 		if (time_since_last_meal > time_to_die)
 		{
-			printf("%lld %d died\n", get_time(), pos + 1);
+			printf(RED"%lld %d died\n"RESET, ft_time(all), pos + 1);
 			killed = 1;
-			philos[pos].state = dead;
-			pthread_mutex_unlock(&philos[pos].update);
+			all->philos[pos].state = dead;
+			pthread_mutex_unlock(&all->philos[pos].update);
 		}
 		else
-			pthread_mutex_unlock(&philos[pos].update);
+			pthread_mutex_unlock(&all->philos[pos].update);
 	}
 	return (killed);
 }
@@ -90,7 +90,7 @@ static int	should_philo_be_killed(t_philo *philos, int time_to_die, \
  *	- Calls ft_kill_all() to mark all philosophers as dead 
  *	  if the check is complete.
  */
-int	check_meals(t_philo *philos, t_arg arg)
+int	check_meals(t_philo *philos, t_arg arg, t_data *data)
 {
 	int	i;
 	int	freed;
@@ -103,7 +103,7 @@ int	check_meals(t_philo *philos, t_arg arg)
 		i = -1;
 		freed = 0;
 		while (++i < arg.nb_philos && !is_done)
-			is_done = should_philo_be_killed(philos, arg.time_to_die, \
+			is_done = should_philo_be_killed(data, arg.time_to_die, \
 				i, &freed);
 	}
 	ft_kill_all(philos, arg.nb_philos);
