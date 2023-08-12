@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 22:30:36 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 11:50:09 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,17 @@ static void	ft_action_and_print(t_data *data, t_state state, \
 	{
 		if (ate_howmany_times > 1)
 			printf("%lld %d is thinking\n", get_time(), data->pos + 1);
-		while (get_state(data->philos, get_left_fork_pos(data->pos,
-					data->arg.nb_philos)) == thinking)
-			usleep(500);
 		pthread_mutex_lock(&data->philos[data->pos].update);
-		if (data->philos[data->pos].state == dead)
-		{
-			pthread_mutex_unlock(&data->philos[data->pos].update);
-			return ;
-		}
-		data->philos[data->pos].state = thinking;
+		while (get_state(data->philos, get_left_fork_pos(data->pos, \
+			data->arg.nb_philos)) == thinking)
+			usleep(500);
 		pthread_mutex_unlock(&data->philos[data->pos].update);
-		pthread_mutex_lock(&data->philos[get_left_fork_pos(data->pos,
-				data->arg.nb_philos)].fork);
+		pthread_mutex_lock(&data->philos[data->pos].update);
+		if (data->philos[data->pos].state != dead)
+			data->philos[data->pos].state = thinking;
+		pthread_mutex_unlock(&data->philos[data->pos].update);
+		pthread_mutex_lock(&data->philos[get_left_fork_pos(data->pos, \
+			data->arg.nb_philos)].fork);
 		ft_eat(data);
 	}
 	else if (state == sleeping)

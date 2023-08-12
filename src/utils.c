@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 08:11:08 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 21:39:57 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 11:33:50 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ t_state	get_state(t_philo *philos, int pos)
 {
 	t_state	state;
 
+	pthread_mutex_lock(&philos[pos].update);
 	state = philos[pos].state;
+	pthread_mutex_unlock(&philos[pos].update);
 	return (state);
 }
 

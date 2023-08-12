@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 22:31:33 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/12 11:41:13 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,25 @@ static void	ft_kill_all(t_philo *philos, int nb_philos)
 static int	should_philo_be_killed(t_philo *philos, int time_to_die, \
 	int pos, int *freed_pos)
 {
-	int			killed;
+	int				killed;
+	long long int	time_since_last_meal;
 
 	killed = 0;
 	if (get_state(philos, pos) == freed)
 		(*freed_pos)++;
 	else
 	{
-		if (get_time() - philos[pos].last_meal > time_to_die)
+		pthread_mutex_lock(&philos[pos].update);
+		time_since_last_meal = get_time() - philos[pos].last_meal;
+		if (time_since_last_meal > time_to_die)
 		{
 			printf("%lld %d died\n", get_time(), pos + 1);
 			killed = 1;
-			pthread_mutex_lock(&philos[pos].update);
 			philos[pos].state = dead;
 			pthread_mutex_unlock(&philos[pos].update);
 		}
+		else
+			pthread_mutex_unlock(&philos[pos].update);
 	}
 	return (killed);
 }
