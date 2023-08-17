@@ -6,32 +6,36 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:16:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/11 21:44:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:00:11 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 /* ft_destroy_mutex();
- *	- While it iterates through each philosopher.
- *		- While the philosopher's state is not "freed," 
- *		  it repeatedly sleeps for a short period to wait for the philosopher 
- *		  to be freed (killed or finished eating).
- *	- After the philosopher is freed, it destroys the mutexes associated with 
- *	  the philosopher's fork and update using pthread_mutex_destroy.
- *	- Frees the memory allocated for the philosopher array using free.
+ * 	Destroies the mutexes and frees the structs.
  */
-void	ft_destroy_mutex(t_philo *philos, t_arg arg)
+void	ft_destroy_mutex(t_arg *arg, pthread_mutex_t *forks, t_philo *philos)
 {
 	int	i;
 
-	i = -1;
-	while (++i < arg.nb_philos)
+	if (arg)
+		pthread_mutex_destroy(&arg->monitoring_mutex);
+	if (forks)
 	{
-		while (get_state(philos, i) != freed)
-			usleep(100);
-		pthread_mutex_destroy(&(philos[i].fork));
-		pthread_mutex_destroy(&(philos[i].update));
+		i = -1;
+		while (++i < arg->nb_philos)
+		{
+			pthread_mutex_destroy(&forks[i]);
+			philos[i].left_fork = NULL;
+			philos[i].right_fork = NULL;
+		}
+		free(forks);
+		forks = NULL;
 	}
-	free(philos);
+	if (philos)
+	{
+		free(philos);
+		philos = NULL;
+	}
 }

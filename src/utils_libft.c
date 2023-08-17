@@ -6,15 +6,15 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/19 10:04:32 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/07 17:49:08 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 03:42:54 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 /* ft_calloc();
-*	Allocates memory for the given input and initializes all bytes to 0.
-*/
+ *	Allocates memory for the given input and initializes all bytes to 0.
+ */
 void	*ft_calloc(size_t count, size_t n)
 {
 	void	*ptr;
@@ -27,8 +27,8 @@ void	*ft_calloc(size_t count, size_t n)
 }
 
 /* ft_bzero();
-*	Sets all bytes of a given memory block to 0.
-*/
+ *	Sets all bytes of a given memory block to 0.
+ */
 void	ft_bzero(void *str, size_t n)
 {
 	unsigned char	*dest;
@@ -44,12 +44,12 @@ void	ft_bzero(void *str, size_t n)
 }
 
 /* ft_atoi();
-*	Converts a string representation of an integer to an integer value.
-*	It skips leading whitespaces and allows for an optional '+' sign.
-*	If the input isn't between MAX_INT and MIN_INT,
-*	it will throw an error and terminates the program.
-*/
-int	ft_atoi(const char *str)
+ *	Converts a string representation of an integer to an integer value.
+ *	It skips leading whitespaces and allows for an optional '+' sign.
+ *	If the input isn't between MAX_INT and MIN_INT,
+ *	it will throw an error and terminates the program.
+ */
+int	ft_atoi(char *str)
 {
 	long	result;
 	int		sign;

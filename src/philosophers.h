@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:55 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 18:02:19 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:04:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdlib.h> 
 # include <pthread.h>
 # include <limits.h>
+# include <stdbool.h> 
 # include <sys/time.h>
 
 // Colour code
@@ -26,71 +27,48 @@
 # define BOLD    "\033[1m"
 # define RESET   "\033[0m"
 
-/*
- * stop:	A stopping condition, indicating the philosopher 
- *			should stop its routine.
- * freed:	The philosopher has been freed, often used to indicate 
- *			that resources are no longer associated with this philosopher.
- */
-typedef enum e_state
+typedef struct s_arg 
 {
-	eating,
-	sleeping,
-	thinking,
-	dead,
-	stop,
-	freed,
-}	t_state;
-
-/*
- * update:	A mutex used to ensure thread-safe updates to the philosopher's 
- *			attributes.
- * fork:	A mutex representing the philosopher's fork, 
- * 			used for synchronization.
- */
-typedef struct s_philo
-{
-	t_state			state;
-	long long int	last_meal;
-	pthread_mutex_t	update;
-	pthread_mutex_t	fork;
-
-}	t_philo;
-
-typedef struct s_arg
-{
-	int				nb_philos;
-	int				time_to_die;
-	int				time_to_eat;
-	int				time_to_sleep;
-	int				nb_of_times_each_philo_must_eat;
+	int					nb_philos;
+	int					time_to_die;
+	int					time_to_eat;
+	int					time_to_sleep;
+	int					nb_of_times_each_philo_must_eat;
+	int					is_done;
+	pthread_mutex_t		monitoring_mutex;
 }	t_arg;
 
-typedef struct s_data
+typedef struct s_philo 
 {
-	int				pos;
-	long long int	start_time;
-	t_arg			arg;
-	t_philo			*philos;
-}	t_data;
+	int					pos;
+	int					eaten_meals;
+	long long int		last_meal_time;
+	long long int		start_time;
+	pthread_mutex_t		*left_fork;
+	pthread_mutex_t		*right_fork;
+	pthread_t			t_id;
+	t_arg				*arg;
+}	t_philo;
 
 int				ft_check_input(char **argv);
-int				ft_init(t_data *data, int argc, char **argv);
-int				ft_threads(t_philo *philos, t_arg arg);
-int				ft_atoi(const char *str);
-int				get_left_fork_pos(int pos, int nb_philos);
-int				check_meals(t_philo *philos, t_arg arg, t_data *data);
-int				ft_init_arg(int argc, char **argv, t_data *data);
-void			*ft_start_routine(void *data);
-void			*ft_calloc(size_t count, size_t n);
-void			ft_destroy_mutex(t_philo *philos, t_arg arg);
-void			ft_bzero(void *str, size_t n);
+
 void			ft_error_msg(char *msg);
-void			ft_wait(int time);
-void			set_state(t_philo *philos, int pos, t_state state);
-long long int	ft_time(t_data *data);
+void			ft_write(t_philo *philo, char *msg);
+long long int	ft_time(t_philo *philo);
 long long int	get_time(void);
-t_philo			*init_philos(t_arg arg);
-t_state			get_state(t_philo *philos, int pos);
+void			ft_wait(int n);
+
+int				ft_atoi(char *str);
+void			*ft_calloc(size_t count, size_t n);
+void			ft_bzero(void *str, size_t n);
+
+int				init_args(t_arg *arg, int argc, char **argv);
+t_philo			*init_philos(t_arg *arg, pthread_mutex_t *forks_array);
+pthread_mutex_t	*init_forks(t_arg *arg);
+
+int				ft_threads(t_arg *arg, t_philo *philos, pthread_mutex_t *forks);
+void			*ft_start_routine(void *_philo);
+void			ft_destroy_mutex(t_arg *arg, pthread_mutex_t *forks, \
+				t_philo *philos);
 
 #endif

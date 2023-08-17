@@ -6,17 +6,11 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 18:09:24 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:10:33 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
-
-//./philo 199 190 60 60 5 - die and print nothing after that
-//./philo 4 200 20000 60 60 - has a 20second delay before exit
-//./philo 3246784 190 60 60
-//./philo 185 190 60 60
-//./philo 199 185 60 60
 
 // //___________________________________________
 // // FOR LEAKS
@@ -26,48 +20,36 @@
 // }
 // //  - atexit(ft_systemleaks); // USE FOR LEAKS
 // //____________________________________________
-
-/* ft_error_msg();
-* 	Displays an error message with a specific error message 
-*	and terminates the program.
-*/
-void	ft_error_msg(char *msg)
-{
-	printf(RED "Error\n%s\n" RESET, msg);
-	exit(EXIT_FAILURE);
-}
-
 /* main();
-*	The function performs some initialization steps,
-*	validates the command-line arguments, and executes different actions 
-*	based on the arguments' validity. If the arguments are invalid, 
-*	it displays an error message and exits the program.
-*/
+ *	The function validates the command-line arguments,
+ *	performs some initialization steps, and executes different actions 
+ *	based on the arguments' validity.
+ */
 int	main(int argc, char **argv)
 {
-	t_data	data;
+	t_arg			arg;
+	pthread_mutex_t	*forks;
+	t_philo			*philos;
 
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!ft_check_input(argv))
 			ft_error_msg("Invalid Input");
-		if (!ft_init_arg(argc, argv, &data))
-		{
-			ft_error_msg("Invalid Argument");
-			return (1);
-		}
-		if (!ft_threads(data.philos, data.arg))
+		if (!init_args(&arg, argc, argv))
+			ft_error_msg("Something went wrong with the initialization");
+		forks = init_forks(&arg);
+		philos = init_philos(&arg, forks);
+		if (!ft_threads(&arg, philos, forks))
 			ft_error_msg("Something went wrong with the threads");
 	}
 	else
 	{
-		printf("Error:\n" GREEN BOLD "Try: " RESET "./philo " RED BOLD "<" \
-				RESET "number of philosophers" RED BOLD "> " RESET RED BOLD \
-				"<" RESET "time to die" RED BOLD "> " RESET RED BOLD "<" \
-				RESET "time to eat" RED BOLD "> " RESET RED BOLD "<" RESET \
-				"time to sleep" RED BOLD "> " RESET RED BOLD "<" RESET \
-				"number of times each philosopher must eat" RED \
-				BOLD ">\n" RESET);
+		printf("Error:\n"GREEN BOLD"Try: "RESET"./philo "RED BOLD "<"RESET
+			"number of philosophers"RED BOLD"> "RESET RED BOLD"<"RESET
+			"time to die"RED BOLD"> "RESET RED BOLD"<"RESET"time to eat"
+			RED BOLD"> "RESET RED BOLD"<"RESET"time to sleep"RED BOLD"> "
+			RESET RED BOLD"<"RESET"number of times each philosopher must eat"
+			RED BOLD">\n"RESET);
 	}
 	return (0);
 }

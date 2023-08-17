@@ -12,7 +12,6 @@ CFLAGS		+= -Werror
 # Sources files
 SRC		= ./src/main.c \
 			./src/check_input.c \
-			./src/check_meals.c \
 			./src/destroy_mutex.c \
 			./src/init.c \
 			./src/start_routine.c \

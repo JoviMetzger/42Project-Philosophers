@@ -6,87 +6,32 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 08:11:08 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 11:33:50 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:05:05 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/* get_left_fork_pos();
- *	- This function is used to determine the position of the left fork 
- *	  for a philosopher to maintain proper synchronization.
- *	- Calculates the position of the left fork by subtracting 1 from 
- *	  the philosopher's current position.
- *	- If the calculated left position is less than 0 (it's the first philo),
- *	  it wraps around to the last philosopher's position by setting it 
- *	  to nb_philos - 1.
+/* ft_write();
+ * 	Writes the state of the Philosopher (EAT, SLEEP, THINK, FORK, DEAD).
  */
-int	get_left_fork_pos(int pos, int nb_philos)
+void	ft_write(t_philo *philo, char *msg)
 {
-	int	left;
+	long long int	timestamp;
 
-	left = pos - 1;
-	if (left < 0)
-		left = nb_philos - 1;
-	return (left);
-}
-
-/* set_state();
- *	- This function ensures that the philosopher's state is updated safely 
- *	  and consistently among multiple threads.
- *	- Locks the philosopher's update mutex using pthread_mutex_lock().
- *	- Updates the philosopher's state with the provided state.
- *	- Unlocks the philosopher's update mutex using pthread_mutex_unlock().
- */
-void	set_state(t_philo *philos, int pos, t_state state)
-{
-	pthread_mutex_lock(&philos[pos].update);
-	philos[pos].state = state;
-	pthread_mutex_unlock(&philos[pos].update);
-}
-
-/* get_state();
- *	- This function retrieves the current state of a philosopher.
- *	- Retrieves the philosopher's state from the philos array at 
- *	 the specified position 'pos'.
- *	- Returns the retrieved state.
- */
-t_state	get_state(t_philo *philos, int pos)
-{
-	t_state	state;
-
-	pthread_mutex_lock(&philos[pos].update);
-	state = philos[pos].state;
-	pthread_mutex_unlock(&philos[pos].update);
-	return (state);
-}
-
-/* ft_wait();
- *	- This function simulates a waiting period for a specified amount of time.
- *	- Retrieves the current time using the get_time().
- *	- Enters a loop that continues until the desired time has passed.
- *	- The function repeatedly checks the difference between the current time 
- *	  and the start time against the desired waiting time.
- *	- If the desired waiting time has not passed, the function sleeps for 
- *	  a short period using usleep(100) and continues the loop.
- */
-void	ft_wait(int time)
-{
-	long long	start;
-
-	if (time <= 0)
+	pthread_mutex_lock(&philo->arg->monitoring_mutex);
+	if (philo->arg->is_done)
+	{
+		pthread_mutex_unlock(&philo->arg->monitoring_mutex);
 		return ;
-	start = get_time();
-	while (get_time() - start < time)
-		usleep(100);
+	}
+	timestamp = get_time() - philo->start_time;
+	printf("%lld %d %s\n", timestamp, philo->pos, msg);
+	pthread_mutex_unlock(&philo->arg->monitoring_mutex);
 }
 
 /* get_time();
- *	- This function retrieves the current time in milliseconds. 
- *	- Retrieves the current time using the gettimeofday function,
- *	  which provides the current time with high precision.
- *	- Calculates the time in milliseconds by converting seconds 
- *	  to milliseconds and adding microseconds divided by 1000.
+ * 	Get the current time.
  */
 long long int	get_time(void)
 {
@@ -94,4 +39,39 @@ long long int	get_time(void)
 
 	gettimeofday(&time, NULL);
 	return ((long long)(time.tv_sec * 1000) + (time.tv_usec / 1000));
+}
+
+/* ft_wait();
+ * 	A delay for a specified amount of time in milliseconds,
+ *	using a busy-wait loop with 1-millisecond intervals.
+ */
+void	ft_wait(int value)
+{
+	long long	start;
+
+	start = get_time();
+	while (get_time() - start < value)
+		usleep(1000);
+}
+
+/* ft_error_msg();
+ * 	Displays an error message with a specific error message 
+ *	and terminates the program.
+ */
+void	ft_error_msg(char *msg)
+{
+	printf(RED "Error\n%s\n" RESET, msg);
+	exit(EXIT_FAILURE);
+}
+
+/* ft_time();
+ *	- To get the timestamp of current milliseconds.
+ *		- start time - current time.
+ */
+long long int	ft_time(t_philo *philo)
+{
+	long long int	result;
+
+	result = get_time() - philo->start_time;
+	return (result);
 }

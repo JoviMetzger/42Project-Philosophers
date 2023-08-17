@@ -6,16 +6,16 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:19:34 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/08 14:51:04 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:00:06 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
 /* ft_isdigit();
-*	Checks if a string represents a valid positive integer.
-*	Input 0 isn't valid.
-*/
+ *	Checks if a string represents a valid positive integer.
+ *	Input 0 isn't valid.
+ */
 static int	ft_isdigit(char *num)
 {
 	int	i;
@@ -36,9 +36,9 @@ static int	ft_isdigit(char *num)
 }
 
 /* ft_check_input();
-*	This function uses ft_isdigit() to validate 
-*	all command-line arguments except the program name.
-*/
+ *	This function uses ft_isdigit() to validate 
+ *	all command-line arguments except the program name.
+ */
 int	ft_check_input(char **argv)
 {
 	int	i;

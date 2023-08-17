@@ -6,67 +6,96 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/12 18:05:19 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/08/17 04:06:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-/* ft_start();
- *	- This function starts multiple threads to represent the philosophers. 
- *	- Iterates over the philosophers and starts a thread for each philosopher.
- *		- Allocates memory for a t_data structure and initializes its fields.
- *		- Creates a new thread using pthread_create() 
- *		- and passes the ft_start_routine() along with the data struct.
- *		- Detaches the created thread using pthread_detach() to ensure 
- *		  the thread's are automatically released when it finishes execution.
- *	- After starting the threads for even-numbered philosophers, 
- *	  the function resets the iteration index to 1, ensuring that odd-numbered 
- *	  philosophers are also covered.
- *	- Check_meals() to ensure that each philosopher has eaten 
- *	  the required number of times.
+/* ft_dead();
+ * 	- This function is responsible for checking if a philosopher is dead or not.
+ *	- It first checks if a philosopher has reached the required number of meals.
+ *	- Then, it calculates the time elapsed since the philosopher's last meal 
+ *	  and compares it to the time_to_die value.
+ *	- If the philosopher has exceeded the time_to_die, it prints a message.
  */
-static int	ft_start(t_philo *philos, t_arg arg)
+static int	ft_dead(t_arg *arg, t_philo *philo, int *satisfied_philos)
 {
-	int			i;
-	t_data		*data;
-	pthread_t	thread;
-
-	i = 0;
-	while (i < arg.nb_philos)
+	if (arg->nb_of_times_each_philo_must_eat > 0 && \
+		philo->eaten_meals >= arg->nb_of_times_each_philo_must_eat)
+		*satisfied_philos += 1;
+	if ((get_time() - philo->last_meal_time) >= philo->arg->time_to_die)
 	{
-		data = ft_calloc(1, sizeof(t_data));
-		if (!data)
-			return (1);
-		data->arg = arg;
-		data->philos = philos;
-		data->pos = i;
-		data->start_time = get_time();
-		philos[i].last_meal = get_time();
-		if (pthread_create(&thread, NULL, &ft_start_routine, data))
-			return (1);
-		pthread_detach(thread);
-		i = i + 2;
-		if (i % 2 == 0 && i >= arg.nb_philos)
-			i = 1;
+		pthread_mutex_unlock(&arg->monitoring_mutex);
+		ft_write(philo, RED"is dead"RESET);
+		pthread_mutex_lock(&arg->monitoring_mutex);
+		arg->is_done = 1;
+		pthread_mutex_unlock(&arg->monitoring_mutex);
+		return (1);
 	}
-	if (!check_meals(philos, arg, data))
-		return (0);
-	return (1);
+	return (0);
+}
+
+/* monitoring();
+ *	- This function is a continuous loop that monitors the philosophers' status.
+ *	- It iterates through all philosophers and checks if any of them 
+ *	  are dead using the ft_dead() function. 
+ *	- If a philosopher is dead, it immediately returns(STOPS).
+ *	- If all philosophers have satisfied their meal requirements, 
+ *	  it prints a message.
+ */
+static void	monitoring(t_philo *philos, t_arg *arg)
+{
+	int	satisfied_philos;
+	int	i;
+
+	satisfied_philos = 0;
+	while (1)
+	{
+		i = -1;
+		pthread_mutex_lock(&arg->monitoring_mutex);
+		while (++i < arg->nb_philos)
+		{
+			if (ft_dead(arg, &philos[i], &satisfied_philos))
+				return ;
+		}
+		if (satisfied_philos == arg->nb_philos)
+		{
+			arg->is_done = 1;
+			printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", \
+				arg->nb_of_times_each_philo_must_eat);
+			pthread_mutex_unlock(&arg->monitoring_mutex);
+		}
+		pthread_mutex_unlock(&arg->monitoring_mutex);
+	}
 }
 
 /* ft_threads();
- *	- This function coordinates the execution of philosopher threads 
- *	  and handles their termination. 
- *	- ft_start() to start threads for philosophers.
- *	- ft_destroy_mutex() to destroy mutexes.
- *	- ft_wait(1) to wait for all philosopher threads to complete.
-*/
-int	ft_threads(t_philo *philos, t_arg arg)
+ * 	- This function initializes and manages the philosopher threads.
+ *	- It creates threads using pthread_create().
+ *	- Starts the monitoring process.
+ *	- It waits for all philosopher threads to finish using pthread_join() 
+ *	  and then cleans up resources.
+ */
+int	ft_threads(t_arg *arg, t_philo *philos, pthread_mutex_t *forks)
 {
-	if (!ft_start(philos, arg))
-		return (0);
-	ft_destroy_mutex(philos, arg);
-	ft_wait(1);
+	int	i;
+
+	i = -1;
+	while (++i < arg->nb_philos)
+	{
+		philos[i].start_time = get_time();
+		if (pthread_create(&philos[i].t_id, NULL, ft_start_routine, \
+			(void *)&philos[i]) != 0)
+			return (0);
+	}
+	monitoring(philos, arg);
+	i = -1;
+	while (++i < arg->nb_philos)
+	{
+		if (pthread_join(philos[i].t_id, NULL) != 0)
+			return (0);
+	}
+	ft_destroy_mutex(arg, forks, philos);
 	return (1);
 }
