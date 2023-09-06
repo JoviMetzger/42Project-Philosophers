@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:55 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/08/17 04:04:04 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/06 21:22:21 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define BOLD    "\033[1m"
 # define RESET   "\033[0m"
 
-typedef struct s_arg 
+typedef struct s_arg
 {
 	int					nb_philos;
 	int					time_to_die;
@@ -35,40 +35,49 @@ typedef struct s_arg
 	int					time_to_sleep;
 	int					nb_of_times_each_philo_must_eat;
 	int					is_done;
+	int     			satisfied_philos;
+	long				start_time;
 	pthread_mutex_t		monitoring_mutex;
+	pthread_mutex_t		is_dead_mutex;
+	pthread_t			death_thread;
 }	t_arg;
 
-typedef struct s_philo 
+typedef struct s_fork
+{
+	int					used;
+	pthread_mutex_t		lock;
+}	t_fork;
+
+typedef struct s_philo
 {
 	int					pos;
-	int					eaten_meals;
-	long long int		last_meal_time;
-	long long int		start_time;
-	pthread_mutex_t		*left_fork;
-	pthread_mutex_t		*right_fork;
-	pthread_t			t_id;
+	int					meal_count;
+	int					right_taken;
+	int					left_taken;
+	long				last_meal;
+	t_fork				*right_fork;
+	t_fork				*left_fork;
+	pthread_t			thread;
+	pthread_mutex_t		last_meal_mutex;
 	t_arg				*arg;
 }	t_philo;
-
-int				ft_check_input(char **argv);
-
-void			ft_error_msg(char *msg);
-void			ft_write(t_philo *philo, char *msg);
-long long int	ft_time(t_philo *philo);
-long long int	get_time(void);
-void			ft_wait(int n);
 
 int				ft_atoi(char *str);
 void			*ft_calloc(size_t count, size_t n);
 void			ft_bzero(void *str, size_t n);
 
-int				init_args(t_arg *arg, int argc, char **argv);
-t_philo			*init_philos(t_arg *arg, pthread_mutex_t *forks_array);
-pthread_mutex_t	*init_forks(t_arg *arg);
+void			ft_error_msg(char *msg);
+int				ft_free_all(t_philo *philos, t_fork *forks);
+void			ft_wait(long int value);
+void			ft_write(char *msg, t_philo *philo);
+long			get_time(void);
 
-int				ft_threads(t_arg *arg, t_philo *philos, pthread_mutex_t *forks);
+int				ft_check_input(char **argv);
+int				is_dead(t_philo *phil);
+int				ft_threads(t_arg *arg, t_philo *philos, t_fork *forks);
+int				init_arg(t_arg *params, int argc, char **argv);
+void			init_philo(t_philo *phil, t_fork **forks, t_arg *arg, int pos);
 void			*ft_start_routine(void *_philo);
-void			ft_destroy_mutex(t_arg *arg, pthread_mutex_t *forks, \
-				t_philo *philos);
+void			*monitoring(void *_philo);
 
 #endif
