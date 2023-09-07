@@ -20,9 +20,6 @@ static int	check_philo_death(t_philo *philo, long curr_time)
 {
 	int	last_meal;
 
-	if (philo->arg->nb_of_times_each_philo_must_eat > 0 && \
-		philo->meal_count >= philo->arg->nb_of_times_each_philo_must_eat)
-		philo->arg->satisfied_philos += 1;
 	pthread_mutex_lock(&(philo->last_meal_mutex));
 	last_meal = curr_time - philo->last_meal;
 	pthread_mutex_unlock(&(philo->last_meal_mutex));
@@ -33,9 +30,9 @@ static int	check_philo_death(t_philo *philo, long curr_time)
 		philo->arg->is_done = 1;
 		pthread_mutex_unlock(&(philo->arg->is_dead_mutex));
 		printf("%09ld %d "RED"died\n"RESET, curr_time, philo->pos + 1);
-		pthread_mutex_unlock(&(philo->arg->monitoring_mutex));
 		return (1);
 	}
+	pthread_mutex_unlock(&(philo->arg->monitoring_mutex));
 	return (0);
 }
 
@@ -44,15 +41,15 @@ static int	check_philo_death(t_philo *philo, long curr_time)
  *    in a continuous loop.
  *  - It iterates through all philosophers and checks if any of them have died
  *    or if all have satisfied their meal requirements.
- *  - For each philosopher, it calls check_philo_death() to check if the philosopher 
- *    has died or satisfied their meal requirement.
+ *  - For each philosopher, it calls check_philo_death() to check if 
+ *	  the philosopher has died or satisfied their meal requirement.
  */
 void	*monitoring(void *_philo)
 {
 	t_arg	*arg;
 	t_philo	**philos;
 	long	curr_time;
-    int     i;
+	int		i;
 
 	philos = (t_philo **)_philo;
 	arg = philos[0]->arg;
@@ -66,12 +63,6 @@ void	*monitoring(void *_philo)
 				return (NULL);
 			i++;
 		}
-		// if (arg->satisfied_philos == arg->nb_philos)
-		// {
-		// 	arg->is_done = 1;
-		// 	printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", \
-		// 		arg->nb_of_times_each_philo_must_eat);
-		// }
 		ft_wait(1);
 	}
 	return (NULL);

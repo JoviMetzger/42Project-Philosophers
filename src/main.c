@@ -12,7 +12,7 @@
 
 #include "philosophers.h"
 
-//     system("leaks -q philo");
+// system("leaks -q philo");
 
 /* main();
  *	The function validates the command-line arguments,
@@ -39,7 +39,7 @@ int	main(int argc, char **argv)
 	else
 	{
 		printf("Error:\n"GREEN BOLD"Try: "RESET"./philo "RED BOLD "<"RESET
-			"number of philosophers"RED BOLD"> "RESET RED BOLD"<"RESET"time " 
+			"number of philosophers"RED BOLD"> "RESET RED BOLD"<"RESET"time "
 			"to die"RED BOLD"> "RESET RED BOLD"<"RESET"time to eat"RED BOLD"> "
 			RESET RED BOLD"<"RESET"time to sleep"RED BOLD"> "RESET RED BOLD"<"
 			RESET"number of times each philosopher must eat"RED BOLD">\n"RESET);

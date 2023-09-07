@@ -35,7 +35,6 @@ typedef struct s_arg
 	int					time_to_sleep;
 	int					nb_of_times_each_philo_must_eat;
 	int					is_done;
-	int     			satisfied_philos;
 	long				start_time;
 	pthread_mutex_t		monitoring_mutex;
 	pthread_mutex_t		is_dead_mutex;
@@ -62,16 +61,19 @@ typedef struct s_philo
 	t_arg				*arg;
 }	t_philo;
 
+//lbft_utils
 int				ft_atoi(char *str);
 void			*ft_calloc(size_t count, size_t n);
 void			ft_bzero(void *str, size_t n);
 
+//uitls
 void			ft_error_msg(char *msg);
 int				ft_free_all(t_philo *philos, t_fork *forks);
 void			ft_wait(long int value);
 void			ft_write(char *msg, t_philo *philo);
 long			get_time(void);
 
+//main functions
 int				ft_check_input(char **argv);
 int				is_dead(t_philo *phil);
 int				ft_threads(t_arg *arg, t_philo *philos, t_fork *forks);

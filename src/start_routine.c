@@ -15,13 +15,13 @@
 /* is_dead();
  * 	- This function is responsible for checking if a philosopher is still alive.
  */
-int	is_dead(t_philo *phil)
+int	is_dead(t_philo *philo)
 {
 	int	alive;
 
-	pthread_mutex_lock(&(phil->arg->is_dead_mutex));
-	alive = phil->arg->is_done;
-	pthread_mutex_unlock(&(phil->arg->is_dead_mutex));
+	pthread_mutex_lock(&(philo->arg->is_dead_mutex));
+	alive = philo->arg->is_done;
+	pthread_mutex_unlock(&(philo->arg->is_dead_mutex));
 	return (alive);
 }
 
@@ -59,17 +59,17 @@ static void	take_fork(char fork_s, t_philo *philo)
  * 	- It locks the mutex of the corresponding fork, sets *taken to 0, 
  *	  and marks the fork as not used (used is set to 0).
 */
-static void	unlock_forks(char fork_s, t_philo *phil)
+static void	unlock_forks(char fork_s, t_philo *philo)
 {
 	int		*taken;
 	t_fork	*fork;
 
-	taken = &(phil->right_taken);
-	fork = phil->right_fork;
+	taken = &(philo->right_taken);
+	fork = philo->right_fork;
 	if (fork_s == 'l')
 	{
-		taken = &(phil->left_taken);
-		fork = phil->left_fork;
+		taken = &(philo->left_taken);
+		fork = philo->left_fork;
 	}
 	pthread_mutex_lock(&(fork->lock));
 	*taken = 0;
@@ -82,12 +82,13 @@ static void	unlock_forks(char fork_s, t_philo *phil)
  *	  right forks held by a philosopher after they finish eating and 
  *	  then making the philosopher sleep.
 */
-static void	release_forks_and_sleep(t_philo *phil)
+static void	release_forks_and_sleep(t_philo *philo)
 {
-	unlock_forks('r', phil);
-	unlock_forks('l', phil);
-	ft_write("is sleeping", phil);
-	ft_wait(phil->arg->time_to_sleep);
+	unlock_forks('r', philo);
+	unlock_forks('l', philo);
+	ft_write("is sleeping", philo);
+	ft_wait(philo->arg->time_to_sleep);
+	ft_write("is thinking", philo);
 }
 
 /* ft_start_routine();

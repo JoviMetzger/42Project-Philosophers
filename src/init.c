@@ -46,7 +46,6 @@ int	init_arg(t_arg *arg, int argc, char **argv)
 		arg->nb_of_times_each_philo_must_eat = ft_atoi(argv[5]);
 	else
 		arg->nb_of_times_each_philo_must_eat = -1;
-	arg->satisfied_philos = 0;
 	arg->is_done = 0;
 	pthread_mutex_init(&(arg->monitoring_mutex), NULL);
 	pthread_mutex_init(&(arg->is_dead_mutex), NULL);
