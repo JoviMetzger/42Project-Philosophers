@@ -30,11 +30,12 @@ int	main(int argc, char **argv)
 	if (argc >= 5 && argc <= 6)
 	{
 		if (!ft_check_input(argv))
-			ft_error_msg("Invalid Input");
+			return (ft_error_msg("Invalid Input"));
 		if (!init_arg(&arg, argc, argv))
-			ft_error_msg("Something went wrong with the initialization");
+			return (ft_error_msg("Initialization failure"));
 		if (!ft_threads(&arg, philos, forks))
-			ft_error_msg("Something went wrong with the threads");
+			(ft_error_msg("Something went wrong with the threads"));
+		ft_free_all(philos, forks);
 	}
 	else
 	{

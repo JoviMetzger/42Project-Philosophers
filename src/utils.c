@@ -55,10 +55,10 @@ void	ft_wait(long int value)
  * 	Displays an error message with a specific error message 
  *	and terminates the program.
  */
-void	ft_error_msg(char *msg)
+int	ft_error_msg(char *msg)
 {
 	printf(RED "Error\n%s\n" RESET, msg);
-	exit(EXIT_FAILURE);
+	return (EXIT_FAILURE);
 }
 
 /* ft_free_all();

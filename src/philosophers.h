@@ -67,7 +67,7 @@ void			*ft_calloc(size_t count, size_t n);
 void			ft_bzero(void *str, size_t n);
 
 //uitls
-void			ft_error_msg(char *msg);
+int				ft_error_msg(char *msg);
 int				ft_free_all(t_philo *philos, t_fork *forks);
 void			ft_wait(long int value);
 void			ft_write(char *msg, t_philo *philo);

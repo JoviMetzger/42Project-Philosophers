@@ -94,6 +94,5 @@ int	ft_threads(t_arg *arg, t_philo *philos, t_fork *forks)
 		return (0);
 	if (!ft_join_threads(&philos, arg))
 		return (0);
-	ft_free_all(philos, forks);
 	return (1);
 }

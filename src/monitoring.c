@@ -23,9 +23,9 @@ static int	check_philo_death(t_philo *philo, long curr_time)
 	pthread_mutex_lock(&(philo->last_meal_mutex));
 	last_meal = curr_time - philo->last_meal;
 	pthread_mutex_unlock(&(philo->last_meal_mutex));
+	pthread_mutex_lock(&(philo->arg->monitoring_mutex));
 	if (last_meal > philo->arg->time_to_die)
 	{
-		pthread_mutex_lock(&(philo->arg->monitoring_mutex));
 		pthread_mutex_lock(&(philo->arg->is_dead_mutex));
 		philo->arg->is_done = 1;
 		pthread_mutex_unlock(&(philo->arg->is_dead_mutex));
