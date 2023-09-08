@@ -45,5 +45,6 @@ int	main(int argc, char **argv)
 			RESET RED BOLD"<"RESET"time to sleep"RED BOLD"> "RESET RED BOLD"<"
 			RESET"number of times each philosopher must eat"RED BOLD">\n"RESET);
 	}
+	printf("YOLO BOZO");
 	return (0);
 }

@@ -18,22 +18,23 @@
  */
 static int	check_philo_death(t_philo *philo, long curr_time)
 {
+	int is_dead;
 	int	last_meal;
 
 	pthread_mutex_lock(&(philo->last_meal_mutex));
 	last_meal = curr_time - philo->last_meal;
 	pthread_mutex_unlock(&(philo->last_meal_mutex));
 	pthread_mutex_lock(&(philo->arg->monitoring_mutex));
-	if (last_meal > philo->arg->time_to_die)
+	is_dead = last_meal > philo->arg->time_to_die;
+	if (is_dead)
 	{
 		pthread_mutex_lock(&(philo->arg->is_dead_mutex));
 		philo->arg->is_done = 1;
 		pthread_mutex_unlock(&(philo->arg->is_dead_mutex));
 		printf("%09ld %d "RED"died\n"RESET, curr_time, philo->pos + 1);
-		return (1);
 	}
 	pthread_mutex_unlock(&(philo->arg->monitoring_mutex));
-	return (0);
+	return (is_dead);
 }
 
 /* monitoring();

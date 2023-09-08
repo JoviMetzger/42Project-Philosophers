@@ -102,7 +102,7 @@ void	*ft_start_routine(void *_philo)
 
 	philo = (t_philo *)_philo;
 	if (philo->pos % 2 != 0)
-		ft_wait(philo->arg->time_to_eat);
+		ft_wait((philo->pos % 2) * philo->arg->time_to_eat / 2);
 	while (!is_dead(philo))
 	{
 		if (philo->meal_count >= philo->arg->nb_of_times_each_philo_must_eat

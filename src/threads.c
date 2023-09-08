@@ -72,6 +72,7 @@ static int	ft_join_threads(t_philo **philos, t_arg *arg)
 	i = 0;
 	while (i < arg->nb_philos)
 	{
+		printf("Balls\n");
 		if (pthread_join((*philos)[i].thread, NULL))
 			return (0);
 		i++;
@@ -92,6 +93,7 @@ int	ft_threads(t_arg *arg, t_philo *philos, t_fork *forks)
 		return (0);
 	if (!ft_create_threads(&philos, arg))
 		return (0);
+	pthread_join(arg->death_thread, NULL);
 	if (!ft_join_threads(&philos, arg))
 		return (0);
 	return (1);
