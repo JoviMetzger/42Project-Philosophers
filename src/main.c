@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/06 22:00:58 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 15:21:16 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,5 @@ int	main(int argc, char **argv)
 			RESET RED BOLD"<"RESET"time to sleep"RED BOLD"> "RESET RED BOLD"<"
 			RESET"number of times each philosopher must eat"RED BOLD">\n"RESET);
 	}
-	printf("YOLO BOZO");
 	return (0);
 }

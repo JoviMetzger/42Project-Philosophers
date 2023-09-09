@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/06 21:17:35 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 15:06:34 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ void	*ft_start_routine(void *_philo)
 
 	philo = (t_philo *)_philo;
 	if (philo->pos % 2 != 0)
-		ft_wait((philo->pos % 2) * philo->arg->time_to_eat / 2);
+		ft_wait(100);
 	while (!is_dead(philo))
 	{
 		if (philo->meal_count >= philo->arg->nb_of_times_each_philo_must_eat

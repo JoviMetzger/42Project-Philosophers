@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:55 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/06 21:22:21 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 15:20:13 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ typedef struct s_philo
 	int					meal_count;
 	int					right_taken;
 	int					left_taken;
+	int					all_eaten;
 	long				last_meal;
 	t_fork				*right_fork;
 	t_fork				*left_fork;

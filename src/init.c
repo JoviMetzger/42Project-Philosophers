@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:16:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/06 21:13:30 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 15:20:54 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	init_philo(t_philo *philo, t_fork **forks, t_arg *arg, int pos)
 {
 	philo->arg = arg;
 	philo->pos = pos;
+	philo->all_eaten = 0;
 	philo->last_meal = 0;
 	philo->meal_count = 0;
 	philo->right_taken = 0;
