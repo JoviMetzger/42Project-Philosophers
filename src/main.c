@@ -6,13 +6,20 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 16:10:04 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 17:22:40 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philosophers.h"
 
-// system("leaks -q philo");
+// //___________________________________________
+// // FOR LEAKS
+// void ft_systemleaks(void)
+// {
+//     system("leaks -q philo"); //remove
+// }
+// //  - atexit(ft_systemleaks); // USE FOR LEAKS
+// //____________________________________________
 
 /* main();
  *	The function validates the command-line arguments,
@@ -36,7 +43,6 @@ int	main(int argc, char **argv)
 		if (!ft_threads(&arg, philos, forks))
 			(ft_error_msg("Something went wrong with the threads"));
 		ft_free_all(philos, forks);
-		system("leaks -q philo"); //RM
 	}
 	else
 	{

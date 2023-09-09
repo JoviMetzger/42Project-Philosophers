@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 16:00:06 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 17:16:52 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	ft_threads(t_arg *arg, t_philo *philos, t_fork *forks)
 	if (!ft_join_threads(&philos, arg))
 		return (0);
 	if (philos->all_eaten == 1)
-		printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", arg->nb_of_times_each_philo_must_eat);
+		printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", 
+			arg->nb_of_times_each_philo_must_eat);
+	ft_free_all(philos, forks);
 	return (1);
 }

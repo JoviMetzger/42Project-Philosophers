@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:55 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:20:13 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 16:48:29 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ typedef struct s_philo
 	t_arg				*arg;
 }	t_philo;
 
-//lbft_utils
+//Libft_utils
 int				ft_atoi(char *str);
 void			*ft_calloc(size_t count, size_t n);
 void			ft_bzero(void *str, size_t n);

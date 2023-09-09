@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:16:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 16:08:21 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 17:22:09 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,13 @@
  *	- This function checks if a philosopher has died and 
  *    updates the number of satisfied philosophers.
  */
-static int	check_philo_death(t_philo *philo, long curr_time)
+static int	check_philo_death(t_philo *philo)
 {
-	int is_dead;
-	int	last_meal;
+	int		is_dead;
+	int		last_meal;
+	long	curr_time;
 
+	curr_time = get_time() - philo->arg->start_time;
 	pthread_mutex_lock(&(philo->last_meal_mutex));
 	last_meal = curr_time - philo->last_meal;
 	pthread_mutex_unlock(&(philo->last_meal_mutex));
@@ -49,28 +51,25 @@ void	*monitoring(void *_philo)
 {
 	t_arg	*arg;
 	t_philo	**philos;
-	long	curr_time;
 	int		i;
 
 	philos = (t_philo **)_philo;
 	arg = philos[0]->arg;
 	while (1)
 	{
-		i = 0;
-		curr_time = get_time() - arg->start_time;
+		i = -1;
 		pthread_mutex_lock(&((*philos)->last_meal_mutex));
-		if (arg->nb_of_times_each_philo_must_eat > 0 &&
-            (*philos)->meal_count >= arg->nb_of_times_each_philo_must_eat)
-        {
-			(*philos)->all_eaten = 1;
-            break;
-        }
-		pthread_mutex_unlock(&((*philos)->last_meal_mutex));
-		while (i < arg->nb_philos)
+		if (arg->nb_of_times_each_philo_must_eat > 0 
+			&& (*philos)->meal_count >= arg->nb_of_times_each_philo_must_eat)
 		{
-			if (check_philo_death(&(*philos)[i], curr_time))
+			(*philos)->all_eaten = 1;
+			break ;
+		}
+		pthread_mutex_unlock(&((*philos)->last_meal_mutex));
+		while (++i < arg->nb_philos)
+		{
+			if (check_philo_death(&(*philos)[i]))
 				return (NULL);
-			i++;
 		}
 		ft_wait(1);
 	}
