@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:06:34 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 16:05:03 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,8 @@ void	*ft_start_routine(void *_philo)
 		{
 			ft_write("is eating", philo);
 			ft_wait(philo->arg->time_to_eat);
-			philo->meal_count++;
 			pthread_mutex_lock(&(philo->last_meal_mutex));
+			philo->meal_count++;
 			philo->last_meal = get_time() - philo->arg->start_time;
 			pthread_mutex_unlock(&(philo->last_meal_mutex));
 			release_forks_and_sleep(philo);

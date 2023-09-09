@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/29 13:20:37 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:21:16 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 16:10:04 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char **argv)
 		if (!ft_threads(&arg, philos, forks))
 			(ft_error_msg("Something went wrong with the threads"));
 		ft_free_all(philos, forks);
+		system("leaks -q philo"); //RM
 	}
 	else
 	{

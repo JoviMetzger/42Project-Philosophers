@@ -3,9 +3,9 @@ NAME		= philo
 
 # Compiler and flags
 CC			= gcc
-#CFLAGS		+= -Werror
 CFLAGS		= -Wall -Wextra -g
-#CFLAGS		+= -fsanitize=thread
+CFLAGS		+= -Werror
+# CFLAGS		+= -fsanitize=thread
 # CFLAGS		+= -fsanitize=address
 
 

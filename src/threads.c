@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:19:39 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 16:00:06 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,30 +99,3 @@ int	ft_threads(t_arg *arg, t_philo *philos, t_fork *forks)
 		printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", arg->nb_of_times_each_philo_must_eat);
 	return (1);
 }
-
-// int ft_threads(t_arg *arg, t_philo *philos, t_fork *forks)
-// {	
-//     int all_philosophers_have_eaten;
-// 	int i;
-
-// 	all_philosophers_have_eaten = 1;
-// 	i = -1;
-//     if (!ft_create_philos(&philos, &forks, arg))
-//         return (0);
-//     if (!ft_create_threads(&philos, arg))
-//         return (0);
-//     pthread_join(arg->death_thread, NULL);
-//     while (++i < arg->nb_philos)
-//     {
-//         if (philos[i].meal_count < arg->nb_of_times_each_philo_must_eat)
-//         {
-//             all_philosophers_have_eaten = 0;
-//             break;
-//         }
-//     }
-//     if (all_philosophers_have_eaten)
-// 		printf("Every Philosopher had "GREEN"%d"RESET" meals!\n", arg->nb_of_times_each_philo_must_eat);
-// 	if (!ft_join_threads(&philos, arg))
-//         return (0);
-//     return (1);
-// }

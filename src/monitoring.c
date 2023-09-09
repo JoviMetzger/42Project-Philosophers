@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:16:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:20:25 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/09 16:08:21 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,14 @@ void	*monitoring(void *_philo)
 	{
 		i = 0;
 		curr_time = get_time() - arg->start_time;
+		pthread_mutex_lock(&((*philos)->last_meal_mutex));
 		if (arg->nb_of_times_each_philo_must_eat > 0 &&
             (*philos)->meal_count >= arg->nb_of_times_each_philo_must_eat)
         {
 			(*philos)->all_eaten = 1;
             break;
         }
+		pthread_mutex_unlock(&((*philos)->last_meal_mutex));
 		while (i < arg->nb_philos)
 		{
 			if (check_philo_death(&(*philos)[i], curr_time))
