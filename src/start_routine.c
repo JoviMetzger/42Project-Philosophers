@@ -115,10 +115,10 @@ void	*ft_start_routine(void *_philo)
 		{
 			ft_write("is eating", philo);
 			ft_wait(philo->arg->time_to_eat);
-			//pthread_mutex_lock(&(philo->last_meal_mutex));
+			pthread_mutex_lock(&(philo->last_meal_mutex));
 			philo->meal_count++;
 			philo->last_meal = get_time() - philo->arg->start_time;
-			//pthread_mutex_unlock(&(philo->last_meal_mutex));
+			pthread_mutex_unlock(&(philo->last_meal_mutex));
 			release_forks_and_sleep(philo);
 		}
 	}
