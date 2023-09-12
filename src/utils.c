@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 08:11:08 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/09 15:58:18 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/12 12:05:48 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_write(char *msg, t_philo *philo)
 {
 	long	cur_time;
 
-	cur_time = get_time() - philo->arg->start_time;
 	pthread_mutex_lock(&(philo->arg->monitoring_mutex));
+	cur_time = get_time() - philo->arg->start_time;
 	if (!is_dead(philo))
 		printf("%09ld %d %s\n", cur_time, philo->pos + 1, msg);
 	pthread_mutex_unlock(&(philo->arg->monitoring_mutex));
