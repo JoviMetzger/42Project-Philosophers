@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 18:32:11 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/12 12:11:13 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/12 15:03:06 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ static void	release_forks_and_sleep(t_philo *philo)
 	unlock_forks('r', philo);
 	unlock_forks('l', philo);
 	ft_write("is sleeping", philo);
-	ft_wait(philo->arg->time_to_sleep);
+	usleep(philo->arg->time_to_sleep * 1000);
 	ft_write("is thinking", philo);
 }
 
@@ -114,7 +114,7 @@ void	*ft_start_routine(void *_philo)
 		if (philo->right_taken && philo->left_taken)
 		{
 			ft_write("is eating", philo);
-			ft_wait(philo->arg->time_to_eat);
+			usleep(philo->arg->time_to_eat * 1000);
 			pthread_mutex_lock(&(philo->last_meal_mutex));
 			philo->meal_count++;
 			philo->last_meal = get_time() - philo->arg->start_time;

@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 09:16:54 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/12 12:58:43 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/12 14:59:17 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	*monitoring(void *_philo)
 			if (check_philo_death(&(*philos)[i]))
 				return (NULL);
 		}
-		ft_wait(1);
+		usleep(1000);
 	}
 	return (NULL);
 }

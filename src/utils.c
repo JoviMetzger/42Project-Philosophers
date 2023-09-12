@@ -6,7 +6,7 @@
 /*   By: jmetzger <jmetzger@student.codam.n>          +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/06/13 08:11:08 by jmetzger      #+#    #+#                 */
-/*   Updated: 2023/09/12 12:05:48 by jmetzger      ########   odam.nl         */
+/*   Updated: 2023/09/12 14:57:24 by jmetzger      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,13 @@ long	get_time(void)
  * 	A delay for a specified amount of time in milliseconds,
  *	using a busy-wait loop with 1-millisecond intervals.
  */
-void	ft_wait(long int value)
+void	ft_wait(long value)
 {
-	long int	start_time;
+	long	start_time;
 
-	start_time = 0;
 	start_time = get_time();
 	while ((get_time() - start_time) < value)
-		usleep(100);
+		usleep(value);
 }
 
 /* ft_error_msg();
