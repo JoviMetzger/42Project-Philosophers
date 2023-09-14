@@ -26,6 +26,8 @@ A thread is the smallest unit of execution within a process. Threads share the s
 **Mutex (Mutex Lock)**: <br>
 A mutex (short for "mutual exclusion") is a synchronization mechanism used to ensure that only one thread can access a shared resource or critical section of code at a time. It prevents data races and maintains data integrity by allowing threads to take turns accessing shared resources.
 
+![image](<img width="1222" alt="Screen Shot 2023-09-14 at 4 08 41 PM" src="https://github.com/JoviMetzger/42Project-Philosophers/assets/117259075/4154dedb-d487-496b-a841-fc66cb9aedf4">
+)
 
 ## 🍝 Helpful Tips and Tricks
 
@@ -82,3 +84,4 @@ $ ./philo  5 800 200 200 7
 - [The Dining Philosopher's Problem](https://medium.com/swlh/the-dining-philosophers-problem-bbdb92e6b788)
 - [Mutexes and fork()ing](https://brauner.io/2018/03/04/locking-in-shared-libraries.html)
 - [Threads, Mutexes and Concurrent Programming in C](https://www.codequoi.com/en/threads-mutexes-and-concurrent-programming-in-c/)
+- [Visualizer](https://nafuka11.github.io/philosophers-visualizer/)
