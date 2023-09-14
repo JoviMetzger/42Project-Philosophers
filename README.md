@@ -14,6 +14,8 @@ Imagine a round table with several philosophers, each with a bowl of spaghetti i
 **Problem Solving** <br>
 To solve the Dining Philosophers problem, philosophers use forks as a shared resource. They must acquire the mutex associated with each fork before picking them up to avoid conflicts with other philosophers. If a philosopher can't acquire both forks, they must release any acquired forks and retry later. This ensures that each philosopher can eat without interfering with others.
 
+![image](https://github.com/JoviMetzger/42Project-Philosophers/assets/117259075/4154dedb-d487-496b-a841-fc66cb9aedf4>)
+
 ## 🍝 Understanding Key Concepts
 Before we delve into the solution, let's clarify some key concepts:
 
@@ -25,9 +27,6 @@ A thread is the smallest unit of execution within a process. Threads share the s
 
 **Mutex (Mutex Lock)**: <br>
 A mutex (short for "mutual exclusion") is a synchronization mechanism used to ensure that only one thread can access a shared resource or critical section of code at a time. It prevents data races and maintains data integrity by allowing threads to take turns accessing shared resources.
-
-![image](https://github.com/JoviMetzger/42Project-Philosophers/assets/117259075/4154dedb-d487-496b-a841-fc66cb9aedf4>
-)
 
 ## 🍝 Helpful Tips and Tricks
 
