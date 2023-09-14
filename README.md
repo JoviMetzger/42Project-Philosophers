@@ -1,6 +1,6 @@
-# 🍝 🍴 Philosophers
+# 🍴 Philosophers 🍴
 
-## 🍜 Problem Statement
+## 🍝 Problem Statement
 Imagine a round table with several philosophers, each with a bowl of spaghetti in front of them. These philosophers alternate between eating, thinking, and sleeping, with a set of rules governing their behavior:
 
 - While a philosopher is eating, they cannot think or sleep.
@@ -14,7 +14,7 @@ Imagine a round table with several philosophers, each with a bowl of spaghetti i
 **Problem Solving** <br>
 To solve the Dining Philosophers problem, philosophers use forks as a shared resource. They must acquire the mutex associated with each fork before picking them up to avoid conflicts with other philosophers. If a philosopher can't acquire both forks, they must release any acquired forks and retry later. This ensures that each philosopher can eat without interfering with others.
 
-## 🍜 Understanding Key Concepts
+## 🍝 Understanding Key Concepts
 Before we delve into the solution, let's clarify some key concepts:
 
 **Fork**: <br>
@@ -27,7 +27,7 @@ A thread is the smallest unit of execution within a process. Threads share the s
 A mutex (short for "mutual exclusion") is a synchronization mechanism used to ensure that only one thread can access a shared resource or critical section of code at a time. It prevents data races and maintains data integrity by allowing threads to take turns accessing shared resources.
 
 
-## 🍜 Helpful Tips and Tricks
+## 🍝 Helpful Tips and Tricks
 
 ### Printf Format Specifier %09ld.
 In C programming, you can use the format specifier %09ld to format output. Here's what each part of %09ld signifies:
@@ -46,7 +46,7 @@ To copy and paste content without manually highlighting it, you can use the foll
 
 This command efficiently copies the output directly into your clipboard buffer, making it a convenient way to capture and paste content.
 
-## 🍜 Installation
+## 🍝 Installation
 
 To execute the program, follow the steps below:
 
@@ -65,7 +65,7 @@ OR
 $ ./philo  5 800 200 200 7
 ```
 
-## 🍜 Some Test
+## 🍝 Some Test
 ✅ `./philo  5 800 200 200`    No one should die. <br>
 ✅ `./philo  5 800 200 200 7`  No one should die, and simulation should stop after 7 eats. <br>
 ✅ `./philo  4 410 200 200`    No one should die. <br>
@@ -77,7 +77,7 @@ $ ./philo  5 800 200 200 7
 ✅ `./philo  5 800 -200 200`   Should error. <br>
 ✅ `./philo  5 800 2i0 200`    Should error. <br>
 
-## 🍜 Resources
+## 🍝 Resources
 
 - [The Dining Philosopher's Problem](https://medium.com/swlh/the-dining-philosophers-problem-bbdb92e6b788)
 - [Mutexes and fork()ing](https://brauner.io/2018/03/04/locking-in-shared-libraries.html)
