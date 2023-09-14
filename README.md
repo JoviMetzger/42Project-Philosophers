@@ -1,4 +1,4 @@
-# 🍝 Philosophers 🍴
+# 🍝 🍴 Philosophers
 
 ## 🍜 Problem Statement
 Imagine a round table with several philosophers, each with a bowl of spaghetti in front of them. These philosophers alternate between eating, thinking, and sleeping, with a set of rules governing their behavior:
@@ -8,7 +8,8 @@ Imagine a round table with several philosophers, each with a bowl of spaghetti i
 - While sleeping, they cannot eat or think.
 - Philosophers need to eat regularly and should never starve.
 - They don't communicate with each other or know when another philosopher is about to die.
-- Additionally, there are forks on the table, one for each philosopher. To eat, a philosopher must use both their left and right forks.
+- Additionally, there are forks on the table, one for each philosopher. <br>
+  To eat, a philosopher must use both their left and right forks.
 
 **Problem Solving** <br>
 To solve the Dining Philosophers problem, philosophers use forks as a shared resource. They must acquire the mutex associated with each fork before picking them up to avoid conflicts with other philosophers. If a philosopher can't acquire both forks, they must release any acquired forks and retry later. This ensures that each philosopher can eat without interfering with others.
@@ -55,8 +56,7 @@ $ make
 ```
 2. Finally, execute the program using the following command: <br>
 ./philo **<**number_of_philosophers**>** **<**time_to_die**>** **<**time_to_eat**>** **<**time_to_sleep**>** *[number_of_times_each_philosopher_must_eat]*; <br>
-*(number_of_times_each_philosopher_must_eat) is optinal*; <br>
-*time is im ms*;
+*(number_of_times_each_philosopher_must_eat) is optinal* / *time is im ms*;
 ```C
 $ ./philo  5 800 200 200
 ```
