@@ -12,15 +12,6 @@
 
 #include "philosophers.h"
 
-// //___________________________________________
-// // FOR LEAKS
-// void ft_systemleaks(void)
-// {
-//     system("leaks -q philo"); //remove
-// }
-// //  - atexit(ft_systemleaks); // USE FOR LEAKS
-// //____________________________________________
-
 /* main();
  *	The function validates the command-line arguments,
  *	performs some initialization steps, and executes different actions 
